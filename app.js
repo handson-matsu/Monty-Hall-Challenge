@@ -88,3 +88,16 @@ $('strategy').onchange = resetSession; $('challenge-count').onchange = resetSess
 $('reset').onclick = () => { records.set(key(), empty()); resetSession(); announce('現在のモードとドア数の記録をリセットしました。'); };
 $('run-simulation').onclick = () => { const count = Number($('simulation-count').value); records.set(key(), Monty.simulate(n(), count)); renderResults(); $('simulation-status').textContent = `${n()}ドアで各戦略 ${count.toLocaleString()}回の実験が完了しました。下の記録で比較できます。`; };
 changeMode('experience');
+
+// Record one visit per page load without waiting for the response or retrying.
+try {
+  fetch('https://script.google.com/macros/s/AKfycbxssCIHsD-N97SHxNC_GN0ihYeC0qy-lb-EY0KmSs6Gnztaph1sITMerLVEnNWOGkYc/exec?app=monty-hall', {
+    method: 'GET',
+    mode: 'no-cors',
+    cache: 'no-store',
+    credentials: 'omit',
+    keepalive: true,
+  }).catch(() => {});
+} catch {
+  // Access logging must never interrupt the game.
+}
