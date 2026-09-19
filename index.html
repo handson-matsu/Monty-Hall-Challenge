@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ja">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f5ef"><title>モンティ・ホール実験室</title><link rel="stylesheet" href="style.css"><script src="logic.js" defer></script><script src="app.js" defer></script></head>
+<body>
+<header class="topbar"><a class="brand" href="./"><span class="brand-icon">▥</span> モンティ・ホール実験室</a><span class="tag">確率を、体験しよう。</span></header>
+<main>
+<section class="intro"><div class="eyebrow">THE MONTY HALL LAB</div><h1>そのドア、<span>変えてみる？</span></h1><p>選び直すだけで、当たる確率は変わるのか。<br class="mobile-break">直感を試して、実験で確かめよう。</p></section>
+<nav class="tabs" aria-label="実験モード"><button class="tab active" data-mode="experience" aria-pressed="true"><span>01</span> 体験モード</button><button class="tab" data-mode="challenge" aria-pressed="false"><span>02</span> 連続チャレンジ</button><button class="tab" data-mode="simulation" aria-pressed="false"><span>03</span> 一括シミュレーション</button></nav>
+<section class="workspace">
+<div class="settings"><div><label for="doors-count">ドアの数</label><select id="doors-count"></select></div><p id="settings-hint">まずは3つのドアから。慣れたら増やしてみよう。</p><div id="challenge-settings" hidden><label for="strategy">戦略</label><select id="strategy"><option value="switch">必ず変更する</option><option value="stay">変更しない</option></select><label for="challenge-count">試行回数</label><select id="challenge-count"><option>10</option><option>50</option><option selected>100</option><option>500</option><option>1000</option></select></div><div id="simulation-settings" hidden><label for="simulation-count">試行回数</label><select id="simulation-count"><option value="100">100回</option><option value="1000">1,000回</option><option value="10000" selected>10,000回</option><option value="100000">100,000回</option><option value="1000000">1,000,000回</option></select></div></div>
+<div id="play-panel">
+<div class="stage-heading"><span id="step" class="eyebrow">STEP 01 / 03</span><h2 id="instruction">最初のドアを選ぼう</h2><p id="description">当たりは1つ。気になるドアをタップしてください。</p></div>
+<div id="doors" class="doors" aria-label="ドアを選択"></div>
+<div class="legend"><span><i class="dot selected-dot"></i>最初の選択</span><span><i class="dot remaining-dot"></i>残ったドア</span><span><i class="dot open-dot"></i>開いたハズレ</span></div>
+<div class="actions" id="actions"><span class="action-hint">ドアを選ぶと、司会者がハズレを開けます</span></div>
+<aside id="challenge-progress" aria-labelledby="challenge-results-title" hidden>
+<span class="eyebrow">THIS CHALLENGE</span><h3 id="challenge-results-title">現在の結果</h3>
+<p class="challenge-note">今回のチャレンジの成績</p>
+<dl class="challenge-metrics">
+<div class="challenge-trials"><dt>試行回数</dt><dd id="progress-count">0 / 100</dd></div>
+<div><dt>当たり回数</dt><dd><span id="progress-wins">0</span><small>回</small></dd></div>
+<div><dt>ハズレ回数</dt><dd><span id="progress-losses">0</span><small>回</small></dd></div>
+<div class="challenge-rate"><dt>勝率</dt><dd id="progress-rate">—</dd></div>
+</dl>
+<div class="progress-track"><div id="progress-fill"></div></div>
+</aside>
+<div id="announcement" class="sr-only" role="status" aria-live="polite"></div>
+</div>
+<div id="simulation-panel" hidden><div class="stage-heading"><span class="eyebrow">LET THE NUMBERS SPEAK</span><h2>直感を、数字で確かめよう。</h2><p>同じ条件で2つの戦略を比較。試行回数を増やすと、どうなる？</p></div><div class="sim-visual" aria-hidden="true"><span>1 / n</span><i>vs.</i><span>(n − 1) / n</span></div><div class="actions"><button id="run-simulation" class="primary">シミュレーションを実行 <span>↗</span></button></div><p id="simulation-status" class="simulation-status" role="status">上の設定を選んで実行してください。</p></div>
+</section>
+<section class="results"><div class="section-title"><div><span class="eyebrow">YOUR EXPERIMENT</span><h2>実験の記録</h2></div><button id="reset" class="text-button">記録をリセット ↺</button></div><p id="record-context" class="record-context"></p><div class="result-grid" id="result-grid"></div><p class="chart-caption">■ 実験の勝率 <span>│ 理論値</span><span>記録はこのページを開いている間だけ保存されます。</span></p></section>
+<details class="explanation"><summary>どうして「変更する」と当たりやすいの？ <span>＋</span></summary><div><p>最初に当たりを選ぶ確率は <strong>1/n</strong>。最初にハズレを選ぶ確率は <strong>(n−1)/n</strong> です。</p><p>司会者は当たりの場所を知っていて、選ばれていないハズレだけを必ず n−2 個開けます。最初にハズレを選んでいたなら、もう1つの閉じたドアが当たりです。つまり、変更すると「最初にハズレを選んだとき」に勝てます。</p><p>3ドアなら変更すると約66.7%、10ドアなら90%。2つ残っていても、当たる確率が半分ずつになるわけではありません。</p><p class="note">この実験のルール：当たりは毎回ランダムに1つ。司会者は必ずハズレを開け、必ず変更を提案します。最初の選択が当たりだった場合、司会者が残すハズレはランダムです。一括実験では同じ当たり・最初の選択に対して両戦略を比較します。</p></div></details>
+<footer>モンティ・ホール実験室 <span>小さな選択から、大きな発見を。</span></footer>
+</main></body></html>
