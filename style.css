@@ -215,3 +215,38 @@ body[data-mode="challenge"] .results { margin-top: 18px; }
   body[data-mode="challenge"] .many .door-face { aspect-ratio: 1.35; }
   body[data-mode="challenge"] .many .door-bottom { height: 16px; padding-top: 3px; }
 }
+
+/* Result-only styling; initial doors and other modes are unchanged. */
+body[data-mode="experience"] [data-phase="result"] #instruction {
+  font-size: clamp(28px, 5vw, 36px); font-weight: 850; color: var(--green);
+}
+body[data-mode="experience"] [data-phase="result"] #instruction::before { content: none; }
+body[data-mode="experience"] [data-outcome="loss"] #instruction { color: #a0322c; }
+body[data-mode="experience"] [data-phase="result"] .door:not(.winner) .door-face {
+  background: #e7e7e0; color: #505b52; border: 1px solid #a5aca0;
+  box-shadow: inset 4px 0 0 #d8dbd2;
+}
+body[data-mode="experience"] [data-phase="result"] .door.opened .door-face { border-style: dashed; }
+body[data-mode="experience"] [data-phase="result"] .door.final-choice .door-face {
+  outline: 4px solid var(--green); outline-offset: 2px;
+}
+body[data-mode="experience"] [data-phase="result"] .door-marker {
+  display: flex; align-items: center; justify-content: center;
+  height: 96px; padding: 8px 4px 10px; font-size: 18px; font-weight: 800;
+  line-height: 1.45; color: #435348; white-space: normal; overflow-wrap: anywhere;
+  word-break: normal; text-align: center;
+}
+body[data-mode="experience"] [data-phase="result"] .final-choice .door-marker {
+  background: #e4efd5; border-radius: 8px; font-weight: 900;
+  text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px;
+}
+body[data-mode="experience"] [data-phase="result"] .final-choice .door-marker,
+body[data-mode="experience"] [data-phase="result"] .final-choice .door-bottom { color: var(--green); font-weight: 800; }
+body[data-mode="experience"] [data-phase="result"] .door-bottom {
+  display: block; height: 34px; padding-top: 9px; font-size: 10px; line-height: 1.4;
+}
+body[data-mode="experience"] [data-phase="result"] .legend { display: none; }
+@media (max-width: 650px) {
+  body[data-mode="experience"] [data-phase="result"] .door-marker { height: 108px; font-size: 16px; }
+  body[data-mode="experience"] [data-phase="result"] .door-bottom { height: 38px; font-size: 9px; }
+}

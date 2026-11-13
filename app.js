@@ -65,6 +65,21 @@ function resolve(strategy) {
     if (completed >= Number($('challenge-count').value)) { phase = 'complete'; setHeading('CHALLENGE COMPLETE', 'チャレンジ完了！', `${completed}回中${challengeWins}回当たり。勝率は${percent(challengeWins, completed)}でした。`); $('actions').append(button('もう一度チャレンジ ↺', 'primary', resetSession)); }
     else { $('actions').textContent = '次の試行へ…'; timer = setTimeout(() => { startRound(); $('doors').querySelector('button').focus({ preventScroll: true }); }, 1000); }
   } else { $('actions').append(button('次へ →', 'primary', () => { startRound(); $('doors').querySelector('button').focus({ preventScroll: true }); })); $('actions').firstElementChild.focus({ preventScroll: true }); }
+  if (mode === 'experience') showExperienceResult(strategy, win);
+}
+// Presentation only: runs after the existing game has finished and rendered.
+function showExperienceResult(strategy, win) {
+  setHeading('STEP 03 / 03', win ? '★ 当たり！' : '× ハズレ！',
+    `${strategy === 'switch' ? '変更しました' : '変更しませんでした'}。最初：ドア${round.first + 1} → 最終：ドア${round.final + 1}（当たり：ドア${round.prize + 1}）`);
+  Array.from($('doors').children).forEach((door, i) => {
+    const final = i === round.final;
+    const marker = final ? 'あなたが選んだドア' : i === round.first ? '最初に選んだドア' : i === round.remaining ? '残っていたドア' : '司会者が開いたドア';
+    const markerElement = door.querySelector('.door-marker');
+    const bottomElement = door.querySelector('.door-bottom');
+    if (markerElement) markerElement.textContent = marker;
+    if (bottomElement) bottomElement.textContent = final ? (strategy === 'switch' ? '✓ 変更後の選択' : '✓ 最初の選択のまま') : '';
+    door.setAttribute('aria-label', `ドア${i + 1}、${marker}、${i === round.prize ? '当たり' : 'ハズレ'}`);
+  });
 }
 function renderResults() {
   const data = record();
